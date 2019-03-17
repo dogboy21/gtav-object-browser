@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GTAV Object Browser</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
+    <link rel="stylesheet" href="/css/browser.css">
+</head>
+
+<body>
+    <header>
+        <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+                <a href="#" class="navbar-brand d-flex align-items-center">
+                    <i class="fas fa-video mr-2"></i>
+                    <strong>GTAV Object Browser</strong>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="category-dropdown-trigger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
+                            <div class="dropdown-menu" aria-labelledby="category-dropdown" id="category-dropdown"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">GTAV Object Browser</h1>
+                <p class="lead text-muted">Browse GTAV Objects comfortably</p>
+                <input type="text" class="form-control" placeholder="Enter Object Name..." id="name-input">
+            </div>
+        </section>
+
+        <div class="album py-5 bg-light">
+            <div class="container" id="content">
+                
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+            <p>Grand Theft Auto and Grand Theft Auto: V are registered trademarks of Take-Two Interactive Software.</p>
+            <p>GTAV Object Browser is not affiliated with Take-Two Interactive Software in any way.</p>
+            <p>Site based on the <a href="https://cdn.rage.mp/public/odb/">RageMP Object Databse</a> and created with <a href="https://getbootstrap.com/">Bootstrap</a></p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
+    <script src="https://cdn.rage.mp/public/odb/objdata.js"></script>
+    <script src="/js/categories.js"></script>
+    <script src="/js/browser.js"></script>
+</body>
+
+</html>
