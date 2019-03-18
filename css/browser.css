@@ -67,3 +67,7 @@ footer p {
     transform: translateX(-50%);
     margin-bottom: 10px;
 }
+
+.list-group-item {
+    background-color: transparent;
+}

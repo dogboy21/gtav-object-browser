@@ -11,36 +11,44 @@ $(document).ready(function() {
     showObjects(false, true);
 
     if (supportsLocalStorage()) {
-        var navbar = document.getElementById('navbar-content');
-        var link = document.createElement('a');
-        link.setAttribute('class', 'nav-link clickable');
-        link.appendChild(document.createTextNode('Favorites'));
-        link.addEventListener('click', browseTo('favorites'));
-        var menuItem = document.createElement('li');
-        menuItem.setAttribute('class', 'nav-item');
-        menuItem.appendChild(link);
-        navbar.appendChild(menuItem);
+        var entry = document.createElement('li');
+        entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center clickable');
+        entry.appendChild(document.createTextNode('Favorites'));
+        entry.addEventListener('click', browseTo('favorites'));
+        document.getElementById('category-list').prepend(entry);
 
         var favString = window.localStorage.getItem('favorites');
         if (favString) {
             window.favorites = JSON.parse(favString);
         }
     }
+
+    document.getElementById('show-uncategorized').addEventListener('click', browseTo('tag:none'));
+
+    setCategoryMenu();
 });
 
 function setCategoryMenu() {
     var categories = getUniqueCategories();
     var categoryNames = Object.keys(categories);
     categoryNames.sort();
-    var dropdown = document.getElementById('category-dropdown');
+    var list = document.getElementById('category-list');
     for (var i = 0; i < categoryNames.length; i++) {
         var category = categoryNames[i];
         var count = categories[category];
-        var link = document.createElement('a');
-        link.setAttribute('class', 'dropdown-item clickable');
-        link.appendChild(document.createTextNode(`${category} (${count})`));
-        link.addEventListener('click', browseTo('tag:' + category));
-        dropdown.appendChild(link);
+
+        var badge = document.createElement('span');
+        badge.setAttribute('class', 'badge badge-secondary badge-pill');
+        badge.appendChild(document.createTextNode(count));
+
+        var entry = document.createElement('li');
+        entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center clickable');
+        entry.addEventListener('click', browseTo('tag:' + category));
+
+        entry.appendChild(document.createTextNode(category));
+        entry.appendChild(badge);
+
+        list.appendChild(entry);
     }
 }
 
@@ -56,8 +64,6 @@ function browseTo(searchTag) {
         doSearch();
     };
 }
-
-setCategoryMenu();
 
 function doSearch() {
     var search = document.getElementById('name-input').value.toLowerCase().trim();
@@ -169,7 +175,7 @@ function createCardForObject(object) {
     card.appendChild(cardBody);
     
     var col = document.createElement('div');
-    col.setAttribute('class', 'col-md-4');
+    col.setAttribute('class', 'col-md-3');
     col.appendChild(card);
 
     return col;
@@ -199,7 +205,6 @@ var pageSize = 100;
 
 function showObjects(filter, defaultView) {
     window.currentObjects = defaultView ? window.objects.slice(0, window.objects.length) : window.objects.filter(filter);
-    console.log(window.currentObjects.length + ' objects');
     window.currentObjects.sort(function(obj1, obj2) {
         return obj1[1] - obj2[1];
     })
@@ -257,8 +262,6 @@ function setPage(newPage) {
             paginationControl.appendChild(getPageBrowseButton(availPages - 1, '>>', false));
         }
 
-        
-
         content.appendChild(paginationControl);
     }
 
@@ -280,9 +283,8 @@ function setPage(newPage) {
         if ((window.page + 1) < availPages) {
             var btnNext = document.createElement('button');
             btnNext.setAttribute('type', 'button');
-            btnNext.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            btnNext.setAttribute('class', 'btn btn-sm btn-outline-secondary float-right');
             btnNext.innerHTML = 'Next Page';
-            btnNext.style.cssFloat = 'right';
             btnNext.addEventListener('click', function() {
                 setPage(window.page + 1);
                 window.scrollTo({top: 0, behavior: 'smooth'});
@@ -293,9 +295,8 @@ function setPage(newPage) {
         if (window.page > 0) {
             var btnPrev = document.createElement('button');
             btnPrev.setAttribute('type', 'button');
-            btnPrev.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            btnPrev.setAttribute('class', 'btn btn-sm btn-outline-secondary float-right');
             btnPrev.innerHTML = 'Previous Page';
-            btnPrev.style.cssFloat = 'right';
             btnPrev.style.marginRight = '10px';
             btnPrev.addEventListener('click', function() {
                 setPage(window.page - 1);
