@@ -68,6 +68,11 @@ function doSearch() {
     }
 
     if (search.startsWith("tag:")) {
+        if (search.substring(4) === 'none') {
+            findWithoutCategory();
+            return;
+        }
+
         showObjects(function (obj) {
             return hasCategory(obj, search.substring(4));
         });
