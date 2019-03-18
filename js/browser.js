@@ -60,9 +60,9 @@ function browseTo(searchTag) {
 setCategoryMenu();
 
 function doSearch() {
-    var search = document.getElementById('name-input').value.toLowerCase();
+    var search = document.getElementById('name-input').value.toLowerCase().trim();
 
-    if (search.trim().length === 0) {
+    if (search.length === 0) {
         showObjects(false, true);
         return;
     }
@@ -274,4 +274,16 @@ function toggleFavorite(objectName) {
     }
 
     saveFavorites();
+}
+
+function addToCategory(category, ...objects) {
+    for (var i = 0; i < objects.length; i++) {
+        if (!window.categories[objects[i]]) {
+            window.categories[objects[i]] = [];
+        }
+
+        if (window.categories[objects[i]].indexOf(category) === -1) {
+            window.categories[objects[i]].push(category);
+        }
+    }
 }
