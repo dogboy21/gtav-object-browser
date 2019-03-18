@@ -113,8 +113,10 @@ function createCardForObject(object) {
     cardBody.setAttribute('class', 'card-body');
     
     var cardText = document.createElement('p');
-    cardText.setAttribute('class', 'card-text');
+    cardText.setAttribute('class', 'card-text clickable');
+    cardText.setAttribute('title', 'Copy to Clipboard');
     cardText.appendChild(document.createTextNode(object[1]));
+    cardText.addEventListener('click', copyToClipboard(object[1]));
 
     var cardControl = document.createElement('div');
     cardControl.setAttribute('class', 'd-flex justify-content-between align-items-center');
@@ -297,6 +299,17 @@ function setPage(newPage) {
             content.appendChild(btnPrev);
         }
     }
+}
+
+function copyToClipboard(text) {
+    return function() {
+        var area = document.createElement('textarea');;
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+    };
 }
 
 function supportsLocalStorage() {
