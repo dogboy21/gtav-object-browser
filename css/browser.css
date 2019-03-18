@@ -51,3 +51,12 @@ footer p {
 .clickable {
     cursor: pointer;
 }
+
+.fav-btn {
+    transition: color .1s;
+    margin-left: 5px;
+}
+
+.fav-btn:hover {
+    color: #7290B2;
+}

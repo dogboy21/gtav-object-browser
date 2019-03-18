@@ -6,7 +6,26 @@ $(document).ready(function() {
         } 
     });
     
+    document.getElementsByClassName('navbar-brand')[0].addEventListener('click', browseTo(''));
+
     showObjects(false, true);
+
+    if (supportsLocalStorage()) {
+        var navbar = document.getElementById('navbar-content');
+        var link = document.createElement('a');
+        link.setAttribute('class', 'nav-link clickable');
+        link.appendChild(document.createTextNode('Favorites'));
+        link.addEventListener('click', browseTo('favorites'));
+        var menuItem = document.createElement('li');
+        menuItem.setAttribute('class', 'nav-item');
+        menuItem.appendChild(link);
+        navbar.appendChild(menuItem);
+
+        var favString = window.localStorage.getItem('favorites');
+        if (favString) {
+            window.favorites = JSON.parse(favString);
+        }
+    }
 });
 
 function setCategoryMenu() {
@@ -20,7 +39,7 @@ function setCategoryMenu() {
         var link = document.createElement('a');
         link.setAttribute('class', 'dropdown-item clickable');
         link.appendChild(document.createTextNode(`${category} (${count})`));
-        link.addEventListener('click', browseToCategory(category));
+        link.addEventListener('click', browseTo('tag:' + category));
         dropdown.appendChild(link);
     }
 }
@@ -31,9 +50,9 @@ function findWithoutCategory() {
     });
 }
 
-function browseToCategory(category) {
+function browseTo(searchTag) {
     return function() {
-        document.getElementById('name-input').value = 'tag:' + category;
+        document.getElementById('name-input').value = searchTag;
         doSearch();
     };
 }
@@ -51,6 +70,10 @@ function doSearch() {
     if (search.startsWith("tag:")) {
         showObjects(function (obj) {
             return hasCategory(obj, search.substring(4));
+        });
+    } else if(search === 'favorites') {
+        showObjects(function (obj) {
+            return isFavorite(obj[1]);
         });
     } else {
         showObjects(function(obj) {
@@ -81,6 +104,9 @@ function createCardForObject(object) {
     var thumbnail = document.createElement('img');
     thumbnail.setAttribute('class', 'bd-placeholder-img card-img-top');
     thumbnail.setAttribute('src', getPreviewForObject(object, true));
+    thumbnail.addEventListener('error', function() {
+        thumbnail.src = '/img/fallback.jpg';
+    });
     thumbnailLink.appendChild(thumbnail);
 
     var cardBody = document.createElement('div');
@@ -88,7 +114,7 @@ function createCardForObject(object) {
     
     var cardText = document.createElement('p');
     cardText.setAttribute('class', 'card-text');
-    cardText.innerHTML = object[1];
+    cardText.appendChild(document.createTextNode(object[1]));
 
     var cardControl = document.createElement('div');
     cardControl.setAttribute('class', 'd-flex justify-content-between align-items-center');
@@ -103,15 +129,29 @@ function createCardForObject(object) {
             var btn = document.createElement('a');
             btn.setAttribute('class', 'btn btn-sm btn-outline-secondary clickable');
             btn.innerHTML = category;
-            btn.addEventListener('click', browseToCategory(category));
+            btn.addEventListener('click', browseTo('tag:' + category));
             btnGroup.appendChild(btn);
         }
     }
     
     var infoText = document.createElement('small');
     infoText.setAttribute('class', 'text-muted');
-    infoText.innerHTML = object[0];
+    infoText.appendChild(document.createTextNode(object[0]));
     
+    var favBtn = document.createElement('i');
+    favBtn.setAttribute('class', 'fav-btn fa-star clickable ' + (isFavorite(object[1]) ? 'fas' : 'far'));
+    favBtn.addEventListener('click', function(e) {
+        toggleFavorite(object[1]);
+        if (isFavorite(object[1])) {
+            e.target.classList.remove('far');
+            e.target.classList.add('fas');
+        } else {
+            e.target.classList.add('far');
+            e.target.classList.remove('fas');
+        }
+    });
+    infoText.appendChild(favBtn);
+
     cardControl.appendChild(btnGroup);
     cardControl.appendChild(infoText);
 
@@ -147,6 +187,7 @@ function getUniqueCategories() {
 
 window.currentObjects = [];
 window.page = 0;
+window.favorites = [];
 var pageSize = 100;
 
 function showObjects(filter, defaultView) {
@@ -191,7 +232,7 @@ function setPage(newPage) {
             btnNext.style.cssFloat = 'right';
             btnNext.addEventListener('click', function() {
                 setPage(window.page + 1);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({top: 0, behavior: 'smooth'});
             })
             content.appendChild(btnNext);
         }
@@ -210,4 +251,27 @@ function setPage(newPage) {
             content.appendChild(btnPrev);
         }
     }
+}
+
+function supportsLocalStorage() {
+    return typeof(Storage) !== "undefined";
+}
+
+function saveFavorites() {
+    window.localStorage.setItem('favorites', JSON.stringify(window.favorites));
+}
+
+function isFavorite(objectName) {
+    return window.favorites.indexOf(objectName) !== -1;
+}
+
+function toggleFavorite(objectName) {
+    var index = window.favorites.indexOf(objectName)
+    if (index !== -1) {
+        window.favorites.splice(index, 1);
+    } else {
+        window.favorites.push(objectName);
+    }
+
+    saveFavorites();
 }

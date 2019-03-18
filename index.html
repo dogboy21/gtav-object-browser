@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/css/lightbox.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="/css/browser.css">
 </head>
 
@@ -17,14 +18,13 @@
         <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container d-flex justify-content-between">
                 <a href="#" class="navbar-brand d-flex align-items-center">
-                    <i class="fas fa-video mr-2"></i>
                     <strong>GTAV Object Browser</strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto" id="navbar-content">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="category-dropdown-trigger" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</a>
                             <div class="dropdown-menu" aria-labelledby="category-dropdown" id="category-dropdown"></div>
@@ -46,9 +46,7 @@
         </section>
 
         <div class="album py-5 bg-light">
-            <div class="container" id="content">
-                
-            </div>
+            <div class="container" id="content"></div>
         </div>
 
     </main>
