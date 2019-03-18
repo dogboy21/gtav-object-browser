@@ -60,3 +60,10 @@ footer p {
 .fav-btn:hover {
     color: #7290B2;
 }
+
+.pagination-control {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 10px;
+}

@@ -200,6 +200,25 @@ function showObjects(filter, defaultView) {
     setPage(0);
 }
 
+function browseToPage(page) {
+    return function() {
+        setPage(page);
+    }
+}
+
+function getPageBrowseButton(page, text, activateable) {
+    var btn = document.createElement('button');
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('class', 'btn btn-outline-secondary');
+    if (window.page == page && activateable) {
+        btn.classList.add('btn-secondary');
+        btn.classList.remove('btn-outline-secondary');
+    }
+    btn.appendChild(document.createTextNode(text));
+    btn.addEventListener('click', browseToPage(page));
+    return btn;
+}
+
 function setPage(newPage) {
     window.page = newPage;
     var availPages = Math.ceil(currentObjects.length / pageSize);
@@ -207,6 +226,33 @@ function setPage(newPage) {
     var content = document.getElementById('content');
     while (content.firstChild) {
         content.removeChild(content.firstChild);
+    }
+
+    if (availPages > 1) {
+        var paginationControl = document.createElement('div');
+        paginationControl.setAttribute('class', 'btn-group mr-2 pagination-control');
+        paginationControl.setAttribute('role', 'group');
+
+        var pagesBefore = Math.min(Math.max(0, window.page), 5);
+        var pagesAfter = Math.min(availPages - window.page - 1, 10 - pagesBefore);
+
+        if (window.page > 0) {
+            paginationControl.appendChild(getPageBrowseButton(0, '<<', false));
+            paginationControl.appendChild(getPageBrowseButton(window.page - 1, '<', false));
+        }
+        
+        for (var i = window.page - pagesBefore; i < (window.page + pagesAfter + 1); i++) {
+            paginationControl.appendChild(getPageBrowseButton(i, i + 1, true));
+        }
+
+        if ((window.page + 1) < availPages) {
+            paginationControl.appendChild(getPageBrowseButton(window.page + 1, '>', false));
+            paginationControl.appendChild(getPageBrowseButton(availPages - 1, '>>', false));
+        }
+
+        
+
+        content.appendChild(paginationControl);
     }
 
     var row = document.createElement('row');
