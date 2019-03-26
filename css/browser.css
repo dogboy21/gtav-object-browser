@@ -45,12 +45,12 @@ footer p {
     cursor: pointer;
 }
 
-.fav-btn {
+.card i {
     transition: color .1s;
     margin-left: 5px;
 }
 
-.fav-btn:hover {
+.card i:hover {
     color: #7290B2;
 }
 
@@ -63,4 +63,17 @@ footer p {
 
 .list-group-item {
     background-color: transparent;
+}
+
+.modal-body .row > div > * {
+    width: 100%;
+}
+
+.modal-body .list-group {
+    margin-top: 20px;
+}
+
+#export-modal textarea {
+    width: 100%;
+    min-height: 150px;
 }

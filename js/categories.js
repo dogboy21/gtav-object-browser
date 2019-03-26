@@ -1,3 +1,5 @@
+window.changedCategories = {};
+
 window.categories = {
     "apa_heist_apart2_door": ["Doors"],
     "apa_mp_apa_yacht_door": ["Doors"],

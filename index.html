@@ -20,6 +20,16 @@
                 <a href="#" class="navbar-brand d-flex align-items-center">
                     <strong>GTAV Object Browser</strong>
                 </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">	
+                    <span class="navbar-toggler-icon"></span>	
+                </button>	
+                <div class="collapse navbar-collapse">	
+                    <ul class="navbar-nav mr-auto" id="navbar-content">	
+                        <li class="nav-item dropdown">	
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#export-modal">Export</a>	
+                        </li>	
+                    </ul>	
+                </div>
             </div>
         </div>
     </header>
@@ -39,7 +49,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <ul class="list-group list-group-flush" id="category-list">
-                            <li id="show-uncategorized" class="list-group-item d-flex justify-content-between align-items-center clickable">Uncategorized</li>
+                            <li id="show-uncategorized" class="list-group-item d-flex justify-content-between align-items-center clickable preserve">Uncategorized</li>
                         </ul>
                     </div>
                     <div class="col-md-10" id="content"></div>
@@ -48,6 +58,45 @@
         </div>
 
     </main>
+
+    <div id="edit-category-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit categories: <span></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="text" list="categories">
+                            <datalist id="categories"></datalist>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm">Add</button>
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="export-modal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Export changed categories</h5>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <footer class="text-muted">
         <div class="container">
@@ -60,9 +109,9 @@
         </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox-plus-jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.10.0/js/lightbox.min.js"></script>
     <script src="https://cdn.rage.mp/public/odb/objdata.js"></script>
     <script src="/js/categories.js"></script>
     <script src="/js/browser.js"></script>

@@ -12,7 +12,7 @@ $(document).ready(function() {
 
     if (supportsLocalStorage()) {
         var entry = document.createElement('li');
-        entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center clickable');
+        entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center clickable preserve');
         entry.appendChild(document.createTextNode('Favorites'));
         entry.addEventListener('click', browseTo('favorites'));
         document.getElementById('category-list').prepend(entry);
@@ -26,6 +26,8 @@ $(document).ready(function() {
     document.getElementById('show-uncategorized').addEventListener('click', browseTo('tag:none'));
 
     setCategoryMenu();
+
+    document.getElementById('edit-category-modal').querySelector('button.btn-success').addEventListener('click', modifyObjectCategories(false, true, false));
 });
 
 function setCategoryMenu() {
@@ -33,6 +35,14 @@ function setCategoryMenu() {
     var categoryNames = Object.keys(categories);
     categoryNames.sort();
     var list = document.getElementById('category-list');
+    for (var i = 0; i < list.children.length; i++) {
+        var child = list.children[i];
+        if (!child.classList.contains('preserve')) {
+            list.removeChild(child);
+            i--;
+        }
+    }
+
     for (var i = 0; i < categoryNames.length; i++) {
         var category = categoryNames[i];
         var count = categories[category];
@@ -60,6 +70,7 @@ function findWithoutCategory() {
 
 function browseTo(searchTag) {
     return function() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
         document.getElementById('name-input').value = searchTag;
         doSearch();
     };
@@ -164,6 +175,13 @@ function createCardForObject(object) {
         }
     });
     infoText.appendChild(favBtn);
+
+    var tagsBtn = document.createElement('i');
+    tagsBtn.setAttribute('class', 'fas fa-tags clickable');
+    tagsBtn.addEventListener('click', function() {
+        showEditModal(object[1]);
+    });
+    infoText.appendChild(tagsBtn);
 
     cardControl.appendChild(btnGroup);
     cardControl.appendChild(infoText);
@@ -341,14 +359,91 @@ function toggleFavorite(objectName) {
     saveFavorites();
 }
 
-function addToCategory(category, ...objects) {
-    for (var i = 0; i < objects.length; i++) {
-        if (!window.categories[objects[i]]) {
-            window.categories[objects[i]] = [];
+function showEditModal(objectName) {
+    window.editing = objectName;
+    var modal = document.getElementById('edit-category-modal');
+    var title = modal.querySelector('.modal-title > span');
+    while (title.firstChild) {
+        title.removeChild(title.firstChild);
+    }
+    title.appendChild(document.createTextNode(objectName));
+
+    var categoryInput = modal.querySelector('datalist#categories');
+    while (categoryInput.firstChild) {
+        categoryInput.removeChild(categoryInput.firstChild);
+    }
+
+    var categories = getUniqueCategories();
+    var categoryNames = Object.keys(categories);
+    categoryNames.sort();
+    for (var i = 0; i < categoryNames.length; i++) {
+        var category = categoryNames[i];
+        var option = document.createElement('option');
+        option.appendChild(document.createTextNode(category));
+        categoryInput.appendChild(option);
+    }
+
+    var categoryList = modal.querySelector('.list-group');
+    while (categoryList.firstChild) {
+        categoryList.removeChild(categoryList.firstChild);
+    }
+
+    if (window.categories[objectName]) {
+        var objCategories = window.categories[objectName];
+        for (var i = 0; i < objCategories.length; i++) {
+            addModalEntry(objCategories[i]);
+        }
+    }
+
+    $("#edit-category-modal").modal()
+}
+
+function addModalEntry(category) {
+    var entry = document.createElement('li');
+    entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
+    entry.appendChild(document.createTextNode(category));
+
+    var removeBadge = document.createElement('span');
+    removeBadge.setAttribute('class', 'badge badge-danger badge-pill clickable');
+    removeBadge.innerHTML = 'x';
+    removeBadge.addEventListener('click', modifyObjectCategories(category, false, entry));
+    entry.appendChild(removeBadge);
+
+    document.querySelector('#edit-category-modal .list-group').appendChild(entry);
+}
+
+function modifyObjectCategories(_category, add, element) {
+    return function() {
+        var objectName = window.editing;
+        var category = _category;
+        if (!_category) {
+            var input = document.getElementById('edit-category-modal').querySelector('input[type=text]');
+            category = input.value;
+            input.value = '';
         }
 
-        if (window.categories[objects[i]].indexOf(category) === -1) {
-            window.categories[objects[i]].push(category);
+        if (!add && element) {
+            element.parentNode.removeChild(element);
         }
+
+        if (!window.categories[objectName]) {
+            window.categories[objectName] = [];
+        }
+
+        if (add) {
+            if (window.categories[objectName].indexOf(category) === -1) {
+                window.categories[objectName].push(category);
+                addModalEntry(category);
+            }
+        } else {
+            var index = window.categories[objectName].indexOf(category);
+            if (index !== -1) {
+                window.categories[objectName].splice(index, 1);
+            }
+        }
+
+        window.changedCategories[objectName] = window.categories[objectName];
+        setCategoryMenu();
+        document.querySelector("#export-modal textarea").value = JSON.stringify(window.changedCategories);
     }
 }
