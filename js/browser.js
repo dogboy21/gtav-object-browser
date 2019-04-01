@@ -6,7 +6,9 @@ $(document).ready(function() {
         } 
     });
     
-    document.getElementsByClassName('navbar-brand')[0].addEventListener('click', browseTo(''));
+    document.getElementById('search-button').addEventListener('click', function() {
+        doSearch();
+    });
 
     showObjects(false, true);
 
@@ -15,7 +17,7 @@ $(document).ready(function() {
         entry.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center clickable preserve');
         entry.appendChild(document.createTextNode('Favorites'));
         entry.addEventListener('click', browseTo('favorites'));
-        document.getElementById('category-list').prepend(entry);
+        document.getElementById('menu-list').appendChild(entry);
 
         var favString = window.localStorage.getItem('favorites');
         if (favString) {
@@ -27,8 +29,40 @@ $(document).ready(function() {
 
     setCategoryMenu();
 
-    document.getElementById('edit-category-modal').querySelector('button.btn-success').addEventListener('click', modifyObjectCategories(false, true, false));
+    document.getElementById('edit-category-modal').querySelector('button.btn-outline-success').addEventListener('click', modifyObjectCategories(false, true, false));
+
+    document.getElementById('sidebar-toggle').addEventListener('click', function(e) {
+        var sidebar = document.getElementById('page-sidebar');
+        var icon = document.querySelector('#sidebar-toggle i');
+        if (sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            icon.classList.add('fa-times');
+            icon.classList.remove('fa-align-left');
+        } else {
+            sidebar.classList.add('active');
+            icon.classList.add('fa-align-left');
+            icon.classList.remove('fa-times');
+        }
+    });
+
+    document.getElementById('darkmode-toggle').addEventListener('click', function(e) {
+        var body = document.body;
+        if (body.classList.contains('dark')) {
+            body.classList.remove('dark');
+        } else {
+            body.classList.add('dark');
+        }
+    });
+
+    window.addEventListener('resize', setContentHeight);
+    setContentHeight();
 });
+
+function setContentHeight() {
+    var height = window.innerHeight;
+    var resulting = height - document.getElementById('menu-bar').clientHeight - document.getElementsByTagName('footer')[0].clientHeight;
+    document.getElementsByTagName('main')[0].querySelector('.py-3').style.minHeight = resulting + 'px';
+}
 
 function setCategoryMenu() {
     var categories = getUniqueCategories();
@@ -84,7 +118,7 @@ function doSearch() {
         return;
     }
 
-    if (search.startsWith("tag:")) {
+    if (search.startsWith('tag:')) {
         if (search.substring(4) === 'none') {
             findWithoutCategory();
             return;
@@ -164,6 +198,7 @@ function createCardForObject(object) {
     
     var favBtn = document.createElement('i');
     favBtn.setAttribute('class', 'fav-btn fa-star clickable ' + (isFavorite(object[1]) ? 'fas' : 'far'));
+    favBtn.setAttribute('title', 'Toggle Favorite');
     favBtn.addEventListener('click', function(e) {
         toggleFavorite(object[1]);
         if (isFavorite(object[1])) {
@@ -178,6 +213,7 @@ function createCardForObject(object) {
 
     var tagsBtn = document.createElement('i');
     tagsBtn.setAttribute('class', 'fas fa-tags clickable');
+    tagsBtn.setAttribute('title', 'Modify Categories');
     tagsBtn.addEventListener('click', function() {
         showEditModal(object[1]);
     });
@@ -294,6 +330,7 @@ function setPage(newPage) {
     content.appendChild(row);
 
     var heading = document.createElement('small');
+    heading.setAttribute('class', 'page-summary');
     heading.appendChild(document.createTextNode(`Page ${page + 1} of ${availPages}, ${currentObjects.length} total objects`));
     content.appendChild(heading);
 
@@ -337,7 +374,7 @@ function copyToClipboard(text) {
 }
 
 function supportsLocalStorage() {
-    return typeof(Storage) !== "undefined";
+    return typeof(Storage) !== 'undefined';
 }
 
 function saveFavorites() {
@@ -395,7 +432,7 @@ function showEditModal(objectName) {
         }
     }
 
-    $("#edit-category-modal").modal()
+    $('#edit-category-modal').modal()
 }
 
 function addModalEntry(category) {
@@ -444,6 +481,6 @@ function modifyObjectCategories(_category, add, element) {
 
         window.changedCategories[objectName] = window.categories[objectName];
         setCategoryMenu();
-        document.querySelector("#export-modal textarea").value = JSON.stringify(window.changedCategories);
+        document.querySelector('#export-modal textarea').value = JSON.stringify(window.changedCategories, null, 4);
     }
 }

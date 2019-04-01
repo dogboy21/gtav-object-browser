@@ -14,50 +14,53 @@
 </head>
 
 <body>
-    <header>
-        <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-            <div class="container d-flex justify-content-between">
-                <a href="#" class="navbar-brand d-flex align-items-center">
-                    <strong>GTAV Object Browser</strong>
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">	
-                    <span class="navbar-toggler-icon"></span>	
-                </button>	
-                <div class="collapse navbar-collapse">	
-                    <ul class="navbar-nav mr-auto" id="navbar-content">	
-                        <li class="nav-item dropdown">	
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#export-modal">Export</a>	
-                        </li>	
-                    </ul>	
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main role="main">
-
-        <section class="jumbotron text-center">
-            <div class="container">
-                <h1 class="jumbotron-heading">GTAV Object Browser</h1>
-                <p class="lead text-muted">Browse GTAV Objects comfortably</p>
+    <div id="menu-bar">
+        <button class="btn btn-outline-light btn-sm" id="sidebar-toggle" title="Toggle Sidebar">
+            <i class="fas fa-times"></i>
+        </button>
+        <h4 class="jumbotron-heading">GTAV Object Browser</h4>
+        <div id="search-container">
+            <div class="input-group">
                 <input type="text" class="form-control" placeholder="Enter Object Name..." id="name-input">
-            </div>
-        </section>
-
-        <div class="album py-5 bg-light">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-2">
-                        <ul class="list-group list-group-flush" id="category-list">
-                            <li id="show-uncategorized" class="list-group-item d-flex justify-content-between align-items-center clickable preserve">Uncategorized</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-10" id="content"></div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-light" type="button" id="search-button"><i class="fas fa-search"></i></button>
                 </div>
             </div>
         </div>
+        <button class="btn btn-outline-light btn-sm" id="darkmode-toggle" title="Toggle Darkmode">
+            <i class="fas fa-adjust"></i>
+        </button>
+    </div>
+    <div id="page-wrapper">
+        <div id="page-sidebar">
+            <ul class="list-group list-group-flush" id="menu-list">
+                <li class="list-group-item clickable" data-toggle="modal" data-target="#export-modal">Export Modified Categories</li>
+                <li id="show-uncategorized" class="list-group-item clickable">Uncategorized</li>
+            </ul>
 
-    </main>
+            <ul class="list-group list-group-flush" id="category-list"></ul>
+        </div>
+        <div id="page-content">
+            <main role="main">
+                <div class="py-3">
+                    <div class="container-fluid">
+                        <div id="content"></div>
+                    </div>
+                </div>
+
+                <footer class="text-muted">
+                    <div class="container">
+                        <p class="float-right">
+                            <a href="#">Back to top</a>
+                        </p>
+                        <p>Grand Theft Auto and Grand Theft Auto: V are registered trademarks of Take-Two Interactive Software.</p>
+                        <p>GTAV Object Browser is not affiliated with Take-Two Interactive Software in any way.</p>
+                        <p>Site based on the <a href="https://cdn.rage.mp/public/odb/">RageMP Object Databse</a> and created with <a href="https://getbootstrap.com/">Bootstrap</a></p>
+                    </div>
+                </footer>
+            </main>
+        </div>
+    </div>
 
     <div id="edit-category-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
@@ -71,11 +74,11 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-10">
-                            <input type="text" list="categories">
+                            <input type="text" list="categories" class="form-control">
                             <datalist id="categories"></datalist>
                         </div>
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-success btn-sm">Add</button>
+                            <button type="button" class="btn btn-outline-success btn-sm">Add</button>
                         </div>
                     </div>
 
@@ -86,28 +89,17 @@
     </div>
 
     <div id="export-modal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Export changed categories</h5>
-                    </div>
-                    <div class="modal-body">
-                        <textarea class="form-control"></textarea>
-                    </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Export changed categories</h5>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control"></textarea>
                 </div>
             </div>
         </div>
-
-    <footer class="text-muted">
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>Grand Theft Auto and Grand Theft Auto: V are registered trademarks of Take-Two Interactive Software.</p>
-            <p>GTAV Object Browser is not affiliated with Take-Two Interactive Software in any way.</p>
-            <p>Site based on the <a href="https://cdn.rage.mp/public/odb/">RageMP Object Databse</a> and created with <a href="https://getbootstrap.com/">Bootstrap</a></p>
-        </div>
-    </footer>
+    </div>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>

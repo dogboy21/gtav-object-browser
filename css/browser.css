@@ -1,8 +1,15 @@
+@import "darkmode.css";
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
 .jumbotron {
     padding-top: 3rem;
     padding-bottom: 3rem;
     margin-bottom: 0;
     background-color: #fff;
+    border-radius: 0;
 }
 
 .jumbotron p:last-child {
@@ -20,6 +27,7 @@
 footer {
     padding-top: 3rem;
     padding-bottom: 3rem;
+    background: #f8f9fa;
 }
 
 footer p {
@@ -76,4 +84,97 @@ footer p {
 #export-modal textarea {
     width: 100%;
     min-height: 150px;
+}
+
+#search-button {
+    border-color: #ced4da;
+}
+
+@media only screen  and (min-width : 1824px) {
+    .col-md-3 {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
+
+#search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+#search-container .input-group {
+    max-width: 40rem;
+}
+
+/* Sidebar Handling */
+
+#page-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#page-sidebar {
+    min-width: 400px;
+    max-width: 400px;
+
+    background: #f8f9fa;
+    color: #fff;
+    transition: margin-left 0.5s ease;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+}
+
+#page-sidebar.active {
+    margin-left: -400px;
+}
+
+#page-content {
+    width: 100%;
+}
+
+#page-sidebar .list-group {
+    margin: 40px 15px 0 15px;
+}
+
+#page-sidebar .list-group-item {
+    color: #212529;
+}
+
+.list-group-flush .list-group-item:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+
+.list-group .list-group-item:first-child {
+    border-top: 0;
+}
+
+@media (max-width: 768px) {
+    #page-sidebar {
+        margin-left: -400px;
+    }
+    #page-sidebar.active {
+        margin-left: 0;
+    }
+}
+
+#menu-bar {
+    display: flex;
+    align-items: center;
+    background: #343a40;
+    min-height: 60px;
+    padding: 10px;
+}
+
+#menu-bar h4 {
+    display: inline;
+    margin-bottom: 0;
+    color: #eee;
+    margin-left: 10px;
+}
+
+#darkmode-toggle {
+    margin-left: auto;
 }

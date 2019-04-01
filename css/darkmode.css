@@ -1,0 +1,89 @@
+body.dark {
+    background-color: #141414;
+}
+
+body.dark #menu-bar {
+    background-color: #222;
+}
+
+body.dark #page-sidebar {
+    background-color: #2e2e2e;
+}
+
+body.dark .card {
+    background-color: #111;
+    color: #eee;
+}
+
+body.dark .jumbotron {
+    background-color: #141414;
+}
+
+body.dark main > div {
+    background-color: #141414!important;
+}
+
+body.dark .list-group-item {
+    color: #eee!important;
+}
+
+body.dark footer {
+    background-color: #2e2e2e;
+}
+
+body.dark .btn-secondary {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+body.dark .btn-secondary:hover {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5;
+}
+
+body.dark .btn-outline-secondary {
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+body.dark .btn-outline-secondary:hover {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+body.dark .badge {
+    color: #212529;
+    background-color: #f8f9fa;
+}
+
+body.dark .form-control {
+    background-color: #141414;
+    border-color: #111;
+    color: #eee;
+}
+
+body.dark #search-button {
+    border-color: #111;
+    background-color: #141414;
+}
+
+body.dark #search-button:hover {
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+body.dark small {
+    color: #eee!important;
+}
+
+body.dark .modal-content {
+    background-color: #2e2e2e;
+}
+
+body.dark .modal-title {
+    color: #eee;
+}
