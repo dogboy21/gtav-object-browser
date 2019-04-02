@@ -102,6 +102,7 @@ footer p {
     flex-direction: row;
     justify-content: center;
     flex-grow: 1;
+    margin: 0 40px;
 }
 
 #search-container .input-group {
